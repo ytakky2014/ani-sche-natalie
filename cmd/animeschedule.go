@@ -15,8 +15,6 @@ import (
 
 // AnimeSchedule は指定されたurlからパースしたAnimeのスケジュールをGoogleカレンダーへ登録する
 func AnimeSchedule() {
-	// urlは最終的に引数から撮れるようにする
-	// calenderIDも引数から取る
 	url := os.Args[1]
 	calendarID := os.Args[2]
 	res, err := http.Get(url)
