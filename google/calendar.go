@@ -71,14 +71,13 @@ func saveToken(path string, token *oauth2.Token) {
 	json.NewEncoder(f).Encode(token)
 }
 
-func CreateCalender(anime anime.Anime) string {
+// CreateCalendar はanimeの情報をcalendarIDのカレンダーへ登録する
+func CreateCalendar(anime anime.Anime, calendarID string) string {
 	ctx := context.Background()
 	b, err := os.ReadFile("credentials.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}
-
-	// If modifying these scopes, delete your previously saved token.json.
 	config, err := google.ConfigFromJSON(b, calendar.CalendarScope)
 	if err != nil {
 		log.Fatalf("Unable to parse client secret file to config: %v", err)
@@ -108,11 +107,9 @@ func CreateCalender(anime anime.Anime) string {
 		},
 	}
 
-	calendarId := "primary"
-	event, err = srv.Events.Insert(calendarId, event).Do()
+	event, err = srv.Events.Insert(calendarID, event).Do()
 	if err != nil {
 		log.Printf("Unable to create event. %v\n", err)
 	}
 	return event.HtmlLink
-
 }
